@@ -17,11 +17,9 @@ struct ImageGallery: Hashable, Equatable {
         }
         
         var imagePath: URL?
-        var aspectRatio: Double
         
-        init(imagePath: URL?, aspectRatio: Double) {
+        init(imagePath: URL?) {
             self.imagePath = imagePath
-            self.aspectRatio = aspectRatio
         }
     }
     

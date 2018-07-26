@@ -8,8 +8,8 @@
 
 import UIKit
 
-class GaleryTableViewController: UITableViewController, UICollectionViewDelegate, galleryUpdateDelegate {
-    
+class GaleryTableViewController: UITableViewController, UICollectionViewDelegate, GalleryUpdateDelegate {
+
     var galleryNames = [String]()
     var activeGallerys = [ImageGallery]() {
         didSet{
@@ -27,7 +27,7 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.tableView!.register(GalleryTableViewCell.self, forCellReuseIdentifier: "GaleryCell")
     }
     
 
@@ -49,7 +49,7 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "GaleryCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "GaleryCell", for: indexPath) as! GalleryTableViewCell
 
         // Configure the cell...
         cell.textLabel?.text = gallerys[indexPath.section][indexPath.row].title
@@ -97,8 +97,7 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            self.performSegue(withIdentifier: "GalleryColletionView", sender: self)
-            
+            self.performSegue(withIdentifier: "GalleryColletionView", sender: self)            
         }
     }
 
@@ -113,7 +112,7 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
         }
     }
     
-    func UppdateGalery(_ updatedGallery: ImageGallery) {
+    func UppdateGallery(_ updatedGallery: ImageGallery) {
         for index in activeGallerys.indices {
             if activeGallerys[index] == updatedGallery {
                 activeGallerys[index] = updatedGallery

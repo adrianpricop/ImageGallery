@@ -36,6 +36,23 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ykS-25-whW" id="bha-ln-CFe">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JG6-dP-N4K">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <nil key="textColor"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <action selector="textField:" destination="836-cu-Fa1" eventType="editingDidEnd" id="l0T-N9-c2d"/>
+                                            </connections>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="JG6-dP-N4K" secondAttribute="trailing" id="OOk-ad-sJK"/>
+                                        <constraint firstItem="JG6-dP-N4K" firstAttribute="leading" secondItem="bha-ln-CFe" secondAttribute="leading" id="OaB-ao-JhH"/>
+                                        <constraint firstItem="JG6-dP-N4K" firstAttribute="top" secondItem="bha-ln-CFe" secondAttribute="top" id="QUQ-2g-hZT"/>
+                                        <constraint firstAttribute="bottom" secondItem="JG6-dP-N4K" secondAttribute="bottom" id="mxL-Cl-bt3"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -56,6 +73,7 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RAz-Y4-SBj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="836-cu-Fa1" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1144" y="-502"/>
         </scene>
@@ -99,21 +117,19 @@
                                     <rect key="frame" x="0.0" y="0.0" width="231" height="237"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3tp-iR-m1P">
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HbE-MT-fe5">
                                             <rect key="frame" x="0.0" y="0.0" width="0.0" height="237"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </view>
                                     </subviews>
                                 </view>
+                                <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="3tp-iR-m1P" secondAttribute="trailing" id="UQV-cV-Xce"/>
-                                    <constraint firstItem="3tp-iR-m1P" firstAttribute="top" secondItem="dqC-lW-xS9" secondAttribute="top" id="byb-Qb-siK"/>
-                                    <constraint firstAttribute="bottom" secondItem="3tp-iR-m1P" secondAttribute="bottom" id="mEh-fa-2Tv"/>
-                                    <constraint firstItem="3tp-iR-m1P" firstAttribute="leading" secondItem="dqC-lW-xS9" secondAttribute="leading" id="mYl-uN-bTo"/>
+                                    <constraint firstItem="HbE-MT-fe5" firstAttribute="leading" secondItem="dqC-lW-xS9" secondAttribute="leading" id="RBc-hp-ckQ"/>
+                                    <constraint firstItem="HbE-MT-fe5" firstAttribute="top" secondItem="dqC-lW-xS9" secondAttribute="top" id="d2h-sV-Wwg"/>
+                                    <constraint firstAttribute="bottom" secondItem="HbE-MT-fe5" secondAttribute="bottom" id="r3m-1m-lbZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="HbE-MT-fe5" secondAttribute="trailing" id="uUf-nM-2fX"/>
                                 </constraints>
-                                <connections>
-                                    <outlet property="imageView" destination="3tp-iR-m1P" id="oh6-GU-ovf"/>
-                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>
@@ -125,7 +141,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cAD-LX-l7D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1949" y="-502"/>
+            <point key="canvasLocation" x="1948.8281249999998" y="-502.34375"/>
         </scene>
     </scenes>
 </document>

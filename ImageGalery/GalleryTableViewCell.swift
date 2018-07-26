@@ -25,12 +25,7 @@ class GalleryTableViewCell: UITableViewCell, UITextFieldDelegate {
             
         }
     }
-    
-    
-    
-    
-    
-    
+
     @objc func titleDidChange(_ sender: UITextField) {
         guard let title = sender.text, title != "" else {
             return
