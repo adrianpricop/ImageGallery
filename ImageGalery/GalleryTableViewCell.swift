@@ -17,18 +17,15 @@ class GalleryTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var textField: UITextField! {
         didSet {
             textField.addTarget(self,
-                                     action: #selector(titleDidChange(_:)),
-                                     for: .editingDidEnd)
+                action: #selector(titleDidChange(_:)),
+                for: .editingDidEnd)
             textField.returnKeyType = .done
             textField.delegate = self
-
         }
     }    
 
     @objc func titleDidChange(_ sender: UITextField) {
-        guard let title = sender.text, title != "" else {
-            return
-            }
+        guard let title = sender.text, title != "" else { return }
     }
     
 }

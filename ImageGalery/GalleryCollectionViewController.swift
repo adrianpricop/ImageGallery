@@ -63,24 +63,8 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
             if let image = cell?.backgroundImage{
                 imageVc.image = image
             }
-            
         }
-        
-//        if segue.identifier == "ImageView"{
-//            let indexpath = collectionView?.indexPathsForSelectedItems
-//            let cell = collectionView?.cellForItem(at: (indexpath?.first)!) as! GalleryCollectionViewCell
-//            let image = cell.backgroundImage
-//            let imageVc = segue.destination as! ImageViewController
-//            imageVc.image = image
-//        }
     }
-    
-//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-//        if let cell = sender as? GalleryCollectionViewCell {
-//            return cell.backgroundImage != nil
-//        }
-//        return false
-//    }
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
@@ -96,19 +80,13 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
             return 0
         }
         return gallery!.images.count
-//        if gallery?.images.count != 0 {
-//            return gallery!.images.count
-//        }else {
-//            return 0
-//        }
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: GalleryCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryCollectionViewCell", for: indexPath) as! GalleryCollectionViewCell
         let url = gallery?.images[indexPath.row].imagePath!
         cell.downloadImage(url: url!)
-        return cell
-        
+        return cell        
     }
     
     func collectionView(_ collectionView: UICollectionView,

@@ -22,11 +22,11 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
             }
         }
     }
+    
     var recentlyDeletedGalery = [ImageGallery]()
     var gallerys: [[ImageGallery]] {
         return [activeGallerys, recentlyDeletedGalery]
     }
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +37,6 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
         self.performSegue(withIdentifier: "GalleryColletionView", sender: self)
     }
     
-
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return gallerys.count
     }
@@ -58,8 +56,6 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GaleryCell", for: indexPath) as! GalleryTableViewCell
 
-        // Configure the cell...
-        
         cell.textLabel?.text = gallerys[indexPath.section][indexPath.row].title
 
         return cell
@@ -69,7 +65,6 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
         return true
     }
 
-    // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             if indexPath.section == 0 {

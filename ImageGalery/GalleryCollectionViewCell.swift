@@ -9,12 +9,6 @@
 import UIKit
 
 class GalleryCollectionViewCell: UICollectionViewCell {
-
-    
-//    var url: URL! {
-//        didSet {
-//            imageView.load(url: url)
-//        }
     
     var backgroundImage: UIImage? {
         didSet {
@@ -27,18 +21,6 @@ class GalleryCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var loading: UIActivityIndicatorView!
     
     override func draw(_ rect: CGRect) {
-//        if (backgroundImage?.size.width)! > self.frame.width {
-//            let ratio = self.frame.width / (backgroundImage?.size.width)!
-//            let width = (backgroundImage?.size.width)! * ratio
-//            let height = (backgroundImage?.size.height)! * ratio
-//            let imageFrame = CGRect(x: self.frame.origin.x,
-//                                    y: self.frame.origin.y + (self.frame.height - height / 2),
-//                                    width: width,
-//                                    height: height)
-//            backgroundImage?.draw(in: imageFrame)
-//        }else {
-//            backgroundImage?.draw(in: bounds)
-//        }
         backgroundImage?.draw(in: bounds)
     }
     

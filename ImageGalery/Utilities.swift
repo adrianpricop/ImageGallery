@@ -31,20 +31,14 @@ class ImageFetcher
     
     func fetch(_ url: URL) {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            if let data = try? Data(contentsOf: url.imageURL) {
-                if self != nil {
-                    // yes, it's ok to create a UIImage off the main thread
-                    if let image = UIImage(data: data) {
-                        self?.handler(url, image)
-                    } else {
-                        self?.fetchFailed = true
-                    }
-                } else {
-                    print("ImageFetcher: fetch returned but I've left the heap -- ignoring result.")
-                }
-            } else {
-                self?.fetchFailed = true
+            guard let usableSelf = self else { return }
+            guard let `self` = self,
+                let data = try? Data(contentsOf: url.imageURL),
+                let image = UIImage(data: data) else {
+                    usableSelf.fetchFailed = true
+                    return
             }
+            self.handler(url, image)
         }
     }
     
