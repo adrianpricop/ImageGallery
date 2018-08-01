@@ -16,20 +16,20 @@ protocol GalleryUpdateDelegate {
 }
 
 class GalleryCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+
     
     var tableViewController: GaleryTableViewController?
     var delegate: GalleryUpdateDelegate?
-    var gallery: ImageGallery!{
+    var gallery: ImageGallery?{
         didSet {
-            if gallery.images.count >= 0 {
-                delegate?.UppdateGallery(gallery)
-            }
-            if oldValue != nil && oldValue.images.count + 1 == gallery.images.count {
-//                let index = IndexPath(row: gallery.images.count - 1, section: 0)
-//                self.collectionView?.insertItems(at: [index])
+            guard let newGallery = gallery else {return}
+            if newGallery.images.count >= 0 {
+                delegate?.UppdateGallery(newGallery)
             }
         }
     }
+    
+    var navigatioBar: UINavigationBar!
     
     var maxWidth: CGFloat {
         return (self.view.frame.width - 2 * cellSpacing) / 3
@@ -45,38 +45,70 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
         collectionView?.dragInteractionEnabled = true
         self.collectionView!.register(GalleryCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
+        let trashButton = UIButton()
+        trashButton.setImage(UIImage(named: "icon_trash"), for: .normal)
+        trashButton.setTitle("Trash", for: .normal)
+        trashButton.backgroundColor = UIColor.black
+        let dropInteraction = UIDropInteraction(delegate: self)
+        trashButton.addInteraction(dropInteraction)
+        let barItem = UIBarButtonItem(customView: trashButton)
+        navigationItem.rightBarButtonItem = barItem
+        barItem.customView!.widthAnchor.constraint(equalToConstant: 32).isActive = true
+        barItem.customView!.heightAnchor.constraint(equalToConstant: 32).isActive = true
     }
 
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        if let imageVc = segue.destination as? ImageViewController {
+            let cell = sender as? GalleryCollectionViewCell
+            if let image = cell?.backgroundImage{
+                imageVc.image = image
+            }
+            
+        }
+        
+//        if segue.identifier == "ImageView"{
+//            let indexpath = collectionView?.indexPathsForSelectedItems
+//            let cell = collectionView?.cellForItem(at: (indexpath?.first)!) as! GalleryCollectionViewCell
+//            let image = cell.backgroundImage
+//            let imageVc = segue.destination as! ImageViewController
+//            imageVc.image = image
+//        }
     }
     
+//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+//        if let cell = sender as? GalleryCollectionViewCell {
+//            return cell.backgroundImage != nil
+//        }
+//        return false
+//    }
 
-    // MARK: UICollectionViewDataSource
-
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        performSegue(withIdentifier: "image", sender: cell)
+    }
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if gallery.images.count != 0 {
-            return gallery.images.count
-        }else {
+        guard (gallery?.images.count) != nil else {
             return 0
         }
+        return gallery!.images.count
+//        if gallery?.images.count != 0 {
+//            return gallery!.images.count
+//        }else {
+//            return 0
+//        }
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: GalleryCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryCollectionViewCell", for: indexPath) as! GalleryCollectionViewCell
-        let url = gallery.images[indexPath.row].imagePath!
-        cell.downloadImage(url: url)
+        let url = gallery?.images[indexPath.row].imagePath!
+        cell.downloadImage(url: url!)
         return cell
+        
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -100,20 +132,29 @@ extension GalleryCollectionViewController: UICollectionViewDropDelegate {
     func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
         return session.canLoadObjects(ofClass: NSURL.self)
     }
-    
-    func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
-        return UIDropProposal(operation: .move)
+    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+        if session.localDragSession != nil {
+            if collectionView.hasActiveDrag {
+                return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+            }
+            else {
+                return UICollectionViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
+            }
+        }else {
+            return UICollectionViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+        
         var destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
         for item in coordinator.items {
             if let sourceIndexPath = item.sourceIndexPath {
                 collectionView.performBatchUpdates({
-                    let imageData = gallery.images[sourceIndexPath.item]
-                    gallery.images.remove(at: sourceIndexPath.item)
+                    let imageData = gallery?.images[sourceIndexPath.item]
+                    gallery?.images.remove(at: sourceIndexPath.item)
                     collectionView.deleteItems(at: [sourceIndexPath])
-                    gallery.images.insert(imageData, at: destinationIndexPath.item)
+                    gallery?.images.insert(imageData!, at: destinationIndexPath.item)
                     collectionView.insertItems(at: [destinationIndexPath])
                 })
                 coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
@@ -121,26 +162,14 @@ extension GalleryCollectionViewController: UICollectionViewDropDelegate {
                 coordinator.session.loadObjects(ofClass: NSURL.self) { nsurls in
                     if let url = nsurls.first as? URL {
                         let imagea = ImageGallery.Image(imagePath: url)
-                        self.gallery.images += [imagea]
-                        let index = IndexPath(row: self.gallery.images.count - 1, section: 0)
+                        self.gallery?.images += [imagea]
+                        let index = IndexPath(row: (self.gallery?.images.count)! - 1, section: 0)
                         self.collectionView?.insertItems(at: [index])
                     }
                 }
             }
         }
     }
-            
-    
-//    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
-//        coordinator.session.loadObjects(ofClass: NSURL.self) { nsurls in
-//            if let url = nsurls.first as? URL {
-//                let imagea = ImageGallery.Image(imagePath: url)
-//                self.gallery.images += [imagea]
-//                let index = IndexPath(row: self.gallery.images.count - 1, section: 0)
-//                self.collectionView?.insertItems(at: [index])
-//            }
-//        }
-//    }
 }
 
 extension GalleryCollectionViewController: UICollectionViewDragDelegate {
@@ -155,12 +184,30 @@ extension GalleryCollectionViewController: UICollectionViewDragDelegate {
     
     private func getDragItems(at indexPath: IndexPath) -> [UIDragItem] {
         var dragItems = [UIDragItem]()
-        if let imageUrl = gallery.images[indexPath.row].imagePath as NSURL? {
+        if let imageUrl = gallery?.images[indexPath.row].imagePath as NSURL? {
             let urlItem = UIDragItem(itemProvider: NSItemProvider(object: imageUrl))
             urlItem.localObject = imageUrl
             dragItems.append(urlItem)
         }
         return dragItems
+    }
+}
+
+extension GalleryCollectionViewController: UIDropInteractionDelegate {
+    func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
+        return session.canLoadObjects(ofClass: URL.self)
+    }
+    
+    func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
+        return UIDropProposal(operation: .move)
+    }
+    
+    func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
+        guard let item = session.items.first else { return }
+        guard let index = session.items.index(of: item) else { return }
+        let indexPath = IndexPath(row: index, section: 0)
+        gallery?.images.remove(at: index)
+        collectionView?.deleteItems(at: [indexPath])
     }
 }
 

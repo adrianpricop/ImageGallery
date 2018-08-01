@@ -173,7 +173,8 @@ extension String {
 
 extension NSMutableAttributedString {
     func setFont(_ newValue: UIFont?) {
-        if newValue != nil { addAttributes([.font:newValue!], range: NSMakeRange(0, length)) }
+        guard let newSetValue = newValue else { return }
+        addAttributes([.font: newSetValue], range: NSMakeRange(0, length))
     }
 }
 

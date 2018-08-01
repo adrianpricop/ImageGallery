@@ -14,7 +14,6 @@ protocol GalleryTableViewCellDelegate {
 
 class GalleryTableViewCell: UITableViewCell, UITextFieldDelegate {
     
-    
     @IBOutlet weak var textField: UITextField! {
         didSet {
             textField.addTarget(self,
@@ -22,13 +21,14 @@ class GalleryTableViewCell: UITableViewCell, UITextFieldDelegate {
                                      for: .editingDidEnd)
             textField.returnKeyType = .done
             textField.delegate = self
-            
+
         }
-    }
+    }    
 
     @objc func titleDidChange(_ sender: UITextField) {
         guard let title = sender.text, title != "" else {
             return
             }
     }
+    
 }

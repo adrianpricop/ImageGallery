@@ -15,33 +15,41 @@ class GalleryCollectionViewCell: UICollectionViewCell {
 //        didSet {
 //            imageView.load(url: url)
 //        }
-//
+    
     var backgroundImage: UIImage? {
         didSet {
+            actInd.stopAnimating()
             setNeedsDisplay()
         }
     }
     var imageFrame: CGRect!
     
+    @IBOutlet weak var loading: UIActivityIndicatorView!
+    
     override func draw(_ rect: CGRect) {
+//        if (backgroundImage?.size.width)! > self.frame.width {
+//            let ratio = self.frame.width / (backgroundImage?.size.width)!
+//            let width = (backgroundImage?.size.width)! * ratio
+//            let height = (backgroundImage?.size.height)! * ratio
+//            let imageFrame = CGRect(x: self.frame.origin.x,
+//                                    y: self.frame.origin.y + (self.frame.height - height / 2),
+//                                    width: width,
+//                                    height: height)
+//            backgroundImage?.draw(in: imageFrame)
+//        }else {
+//            backgroundImage?.draw(in: bounds)
+//        }
         backgroundImage?.draw(in: bounds)
     }
     
     var imageFetcher: ImageFetcher!
+    
     func downloadImage(url: URL) {
+        showActivityIndicatory(uiView: self)
         imageFetcher = ImageFetcher() { (url, image) in
             DispatchQueue.main.async {
-//                let imageView = UIImageView(frame: self.frame)
-//                if image.size.width > self.frame.width {
-//                    imageView.contentMode = UIViewContentMode.scaleAspectFit
-//                }else {
-//                    imageView.contentMode = UIViewContentMode.center
-//                }
-//                imageView.image = image
-//                self.addSubview(imageView)
                 if image.size.width > self.frame.width {
                     let ratio = self.frame.width / image.size.width
-                    print()
                     self.bounds = CGRect(x: self.frame.origin.x,
                                              y: self.frame.origin.y + (self.frame.height - (image.size.height * ratio)) / 2,
                                              width: image.size.width * ratio,
@@ -54,4 +62,17 @@ class GalleryCollectionViewCell: UICollectionViewCell {
         }
         imageFetcher.fetch(url)
     }
+    
+    var actInd: UIActivityIndicatorView = UIActivityIndicatorView()
+    
+    func showActivityIndicatory(uiView: UIView) {
+        actInd.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        actInd.center = uiView.center
+        actInd.hidesWhenStopped = true
+        actInd.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.whiteLarge
+        actInd.color = UIColor.blue
+        uiView.addSubview(actInd)
+        actInd.startAnimating()
+    }
+    
 }

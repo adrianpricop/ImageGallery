@@ -9,10 +9,13 @@
 import UIKit
 
 class GaleryTableViewController: UITableViewController, UICollectionViewDelegate, GalleryUpdateDelegate {
-
+    
     var galleryNames = [String]()
     var activeGallerys = [ImageGallery]() {
         didSet{
+            if activeGallerys.count == 0 {
+                addGallery()
+            }
             galleryNames.removeAll()
             for index in activeGallerys.indices {
                 galleryNames.append(activeGallerys[index].title)
@@ -28,6 +31,10 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView!.register(GalleryTableViewCell.self, forCellReuseIdentifier: "GaleryCell")
+        if activeGallerys.count == 0 {
+            addGallery()
+        }
+        self.performSegue(withIdentifier: "GalleryColletionView", sender: self)
     }
     
 
@@ -52,6 +59,7 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: "GaleryCell", for: indexPath) as! GalleryTableViewCell
 
         // Configure the cell...
+        
         cell.textLabel?.text = gallerys[indexPath.section][indexPath.row].title
 
         return cell
@@ -90,25 +98,25 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
     }
 
     @IBAction func addGallery(_ sender: UIBarButtonItem) {
-        let newGallery = ImageGallery(images: [], title: "new".madeUnique(withRespectTo: galleryNames))
-        activeGallerys += [newGallery]
-        tableView.reloadData()
+        addGallery()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            self.performSegue(withIdentifier: "GalleryColletionView", sender: self)            
+            self.performSegue(withIdentifier: "GalleryColletionView", sender: self)
         }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "GalleryColletionView"{
             let indexpath = tableView.indexPathForSelectedRow
-            let index = indexpath?.row
-            let galleryVC = segue.destination as! GalleryCollectionViewController
-            galleryVC.gallery = activeGallerys[index!]
-            galleryVC.delegate = self
-            
+            let index = indexpath?.row ?? 0
+            if let galleryControlerVC = segue.destination as? UINavigationController {
+                if let galleryVC = galleryControlerVC.visibleViewController as? GalleryCollectionViewController {
+                    galleryVC.gallery = activeGallerys[index]
+                    galleryVC.delegate = self
+                }
+            }
         }
     }
     
@@ -120,5 +128,10 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
         }
     }
     
+    func addGallery() {
+        let newGallery = ImageGallery(images: [], title: "new".madeUnique(withRespectTo: galleryNames))
+        activeGallerys += [newGallery]
+        tableView.reloadData()
+    }
 
 }
