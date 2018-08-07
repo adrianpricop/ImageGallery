@@ -9,27 +9,24 @@
 import UIKit
 
 class GalleryCollectionViewCell: UICollectionViewCell {
-    
-    var url: URL? {
-        didSet {
-            downloadImage(url: url!)
-            showActivityIndicatory(uiView: self)
-        }
-    }
-    
     var backgroundImage: UIImage? {
         didSet {
             actInd.stopAnimating()
             setNeedsDisplay()
         }
     }
+    var url: URL? {
+        didSet {
+            downloadImage(url: url!)
+            showActivityIndicatory(uiView: self)
+        }
+    }
     var imageFrame: CGRect!
+    var imageFetcher: ImageFetcher!
     
     override func draw(_ rect: CGRect) {
         backgroundImage?.draw(in: bounds)
     }
-    
-    var imageFetcher: ImageFetcher!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,7 +34,6 @@ class GalleryCollectionViewCell: UICollectionViewCell {
     }
     
     func downloadImage(url: URL) {
-        
         imageFetcher = ImageFetcher() { (url, image) in
             DispatchQueue.main.async {
                 if image.size.width > self.frame.width {
@@ -66,6 +62,5 @@ class GalleryCollectionViewCell: UICollectionViewCell {
         actInd.color = UIColor.blue
         self.addSubview(actInd)
         actInd.startAnimating()
-    }
-    
+    }    
 }

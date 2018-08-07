@@ -58,6 +58,8 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
         barItem.customView!.widthAnchor.constraint(equalToConstant: 32).isActive = true
         barItem.customView!.heightAnchor.constraint(equalToConstant: 32).isActive = true
     }
+    
+    // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let imageVc = segue.destination as? ImageViewController {
@@ -67,25 +69,23 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
             }
         }
     }
+}
 
+extension GalleryCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
         performSegue(withIdentifier: "image", sender: cell)
     }
     
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard (gallery?.images.count) != nil else {
             return 0
         }
         return gallery!.images.count
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: GalleryCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryCollectionViewCell", for: indexPath) as! GalleryCollectionViewCell
+        let cell: GalleryCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryCollectionViewCell", for: indexPath) as! GalleryCollectionViewCell 
         let url = gallery?.images[indexPath.row].imagePath!
         cell.url = url
         return cell
@@ -96,15 +96,14 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: maxWidth, height: maxWidth * 2 / 3)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return cellSpacing
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return cellSpacing
     }
-
 }
 
 extension GalleryCollectionViewController: UICollectionViewDropDelegate {

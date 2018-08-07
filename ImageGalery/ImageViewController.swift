@@ -9,8 +9,6 @@
 import UIKit
 
 class ImageViewController: UIViewController {
-    var image: UIImage?    
-    var imageView: UIImageView!
 
     @IBOutlet weak var imageScrollView: UIScrollView! {
         didSet {
@@ -19,6 +17,8 @@ class ImageViewController: UIViewController {
             imageScrollView.delegate = self
         }
     }
+    var image: UIImage?
+    var imageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
