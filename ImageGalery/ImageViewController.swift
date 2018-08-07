@@ -9,27 +9,24 @@
 import UIKit
 
 class ImageViewController: UIViewController {
-    
-    var image: UIImage?
-    
-    @IBOutlet weak var imageView: UIImageView!
-    
-    
+    var image: UIImage?    
+    var imageView: UIImageView!
+
     @IBOutlet weak var imageScrollView: UIScrollView! {
         didSet {
-            imageScrollView.minimumZoomScale = 1/8
-            imageScrollView.maximumZoomScale = 1
+            imageScrollView.minimumZoomScale = 0.1
+            imageScrollView.maximumZoomScale = 5
+            imageScrollView.delegate = self
         }
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         guard let image = image else { return }
         let size = image.size
-        imageView.frame = CGRect(x: imageView.frame.origin.x,
-                                 y: imageView.frame.origin.y,
-                                 width: size.width,
-                                 height: size.height)
-        imageView.image = image
+        imageView = UIImageView(image: image)
+        imageScrollView.addSubview(imageView)
+        imageScrollView.contentSize = size
     }
 }
 

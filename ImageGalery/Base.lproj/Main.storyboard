@@ -105,39 +105,40 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="wI9-cR-suC">
-                            <size key="itemSize" width="231" height="237"/>
+                            <size key="itemSize" width="580" height="452"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="GalleryContainerCell" id="dqC-lW-xS9" customClass="GalleryCollectionViewCell" customModule="ImageGalery" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="231" height="237"/>
+                                <rect key="frame" x="62" y="0.0" width="580" height="452"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                    <rect key="frame" x="0.0" y="0.0" width="231" height="237"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="580" height="452"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HbE-MT-fe5">
-                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="237"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="259.5" height="452"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </view>
-                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ZbX-w2-dEO">
-                                            <rect key="frame" x="98" y="100" width="37" height="37"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ZbX-w2-dEO">
+                                            <rect key="frame" x="111.5" y="207.5" width="37" height="37"/>
                                             <color key="color" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </activityIndicatorView>
                                     </subviews>
                                 </view>
                                 <gestureRecognizers/>
                                 <constraints>
+                                    <constraint firstItem="ZbX-w2-dEO" firstAttribute="centerY" secondItem="HbE-MT-fe5" secondAttribute="centerY" id="3ww-Xs-Kb3"/>
                                     <constraint firstItem="HbE-MT-fe5" firstAttribute="leading" secondItem="dqC-lW-xS9" secondAttribute="leading" id="RBc-hp-ckQ"/>
                                     <constraint firstItem="HbE-MT-fe5" firstAttribute="top" secondItem="dqC-lW-xS9" secondAttribute="top" id="d2h-sV-Wwg"/>
+                                    <constraint firstItem="ZbX-w2-dEO" firstAttribute="centerX" secondItem="HbE-MT-fe5" secondAttribute="centerX" id="h1G-Jf-x9Q"/>
                                     <constraint firstAttribute="bottom" secondItem="HbE-MT-fe5" secondAttribute="bottom" id="r3m-1m-lbZ"/>
                                     <constraint firstAttribute="trailing" secondItem="HbE-MT-fe5" secondAttribute="trailing" id="uUf-nM-2fX"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="loading" destination="ZbX-w2-dEO" id="J8w-LP-QE4"/>
+                                    <outlet property="loading" destination="ZbX-w2-dEO" id="DZE-3t-Qpv"/>
                                     <segue destination="0I2-HZ-HyX" kind="show" identifier="image" id="kq6-G2-4bv"/>
                                 </connections>
                             </collectionViewCell>
@@ -151,47 +152,31 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cAD-LX-l7D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1144" y="362"/>
+            <point key="canvasLocation" x="1143.75" y="361.71875"/>
         </scene>
         <!--Image View Controller-->
         <scene sceneID="Mo9-BD-SNw">
             <objects>
                 <viewController id="0I2-HZ-HyX" customClass="ImageViewController" customModule="ImageGalery" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="MFl-Yo-Nnz" customClass="GalleryCollectionViewCell" customModule="ImageGalery" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="MFl-Yo-Nnz">
                         <rect key="frame" x="0.0" y="0.0" width="703.5" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" delaysContentTouches="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OJW-J6-GVR">
-                                <rect key="frame" x="0.0" y="64" width="704" height="704"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="0.0" placeholderIntrinsicHeight="128" translatesAutoresizingMaskIntoConstraints="NO" id="oeT-27-eUP">
-                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="128"/>
-                                    </imageView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="oeT-27-eUP" firstAttribute="leading" secondItem="OJW-J6-GVR" secondAttribute="leading" id="B4n-gi-OzW"/>
-                                    <constraint firstAttribute="bottom" secondItem="oeT-27-eUP" secondAttribute="bottom" id="EOq-zv-kmA"/>
-                                    <constraint firstAttribute="trailing" secondItem="oeT-27-eUP" secondAttribute="trailing" id="qyt-T5-gLX"/>
-                                    <constraint firstItem="oeT-27-eUP" firstAttribute="top" secondItem="OJW-J6-GVR" secondAttribute="top" id="waW-uS-LnW"/>
-                                </constraints>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LK3-mj-8IU">
+                                <rect key="frame" x="0.0" y="64" width="703.5" height="704"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="OJW-J6-GVR" firstAttribute="width" secondItem="MFl-Yo-Nnz" secondAttribute="width" priority="250" id="7Tb-fk-zLK"/>
-                            <constraint firstAttribute="trailing" secondItem="OJW-J6-GVR" secondAttribute="trailing" id="LMg-wE-iH4"/>
-                            <constraint firstItem="OJW-J6-GVR" firstAttribute="height" secondItem="MFl-Yo-Nnz" secondAttribute="height" priority="250" id="MIT-NB-3sy"/>
-                            <constraint firstItem="OJW-J6-GVR" firstAttribute="bottom" secondItem="tJM-9a-PcX" secondAttribute="bottom" id="Wcy-DU-DpH"/>
-                            <constraint firstItem="OJW-J6-GVR" firstAttribute="leading" secondItem="tJM-9a-PcX" secondAttribute="leading" id="Zrb-Ma-831"/>
-                            <constraint firstItem="OJW-J6-GVR" firstAttribute="trailing" secondItem="tJM-9a-PcX" secondAttribute="trailing" id="cfa-IJ-Ehm"/>
-                            <constraint firstItem="OJW-J6-GVR" firstAttribute="centerX" secondItem="tJM-9a-PcX" secondAttribute="centerX" id="hiT-et-tpf"/>
-                            <constraint firstItem="OJW-J6-GVR" firstAttribute="top" secondItem="tJM-9a-PcX" secondAttribute="top" id="qrL-5b-in4"/>
+                            <constraint firstItem="LK3-mj-8IU" firstAttribute="top" secondItem="tJM-9a-PcX" secondAttribute="top" id="Kh8-nt-r4u"/>
+                            <constraint firstItem="tJM-9a-PcX" firstAttribute="trailing" secondItem="LK3-mj-8IU" secondAttribute="trailing" id="LSl-KS-Eg9"/>
+                            <constraint firstItem="LK3-mj-8IU" firstAttribute="leading" secondItem="tJM-9a-PcX" secondAttribute="leading" id="Rbn-hf-vcX"/>
+                            <constraint firstItem="tJM-9a-PcX" firstAttribute="bottom" secondItem="LK3-mj-8IU" secondAttribute="bottom" id="tZl-Ya-c5w"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tJM-9a-PcX"/>
                     </view>
                     <connections>
-                        <outlet property="imageScrollView" destination="OJW-J6-GVR" id="IxX-W4-YeP"/>
-                        <outlet property="imageView" destination="oeT-27-eUP" id="4HH-nZ-Unl"/>
+                        <outlet property="imageScrollView" destination="LK3-mj-8IU" id="e4i-pR-ded"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gLL-W6-gcT" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -218,6 +203,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="nYM-Wd-sHa"/>
+        <segue reference="Cy8-60-TGM"/>
     </inferredMetricsTieBreakers>
 </document>

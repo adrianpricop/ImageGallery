@@ -10,13 +10,10 @@ import UIKit
 
 private let reuseIdentifier = "GalleryCollectionViewCell"
 
-
 protocol GalleryUpdateDelegate {
     func UppdateGallery(_ updatedGallery: ImageGallery)
 }
-
 class GalleryCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-
     
     var tableViewController: GaleryTableViewController?
     var delegate: GalleryUpdateDelegate?
@@ -28,9 +25,7 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
             }
         }
     }
-    
     var navigatioBar: UINavigationBar!
-    
     var maxWidth: CGFloat {
         return (self.view.frame.width - 2 * cellSpacing) / 3
     }
@@ -40,11 +35,18 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        trashButton()
+        setDelegates()
+        self.collectionView!.register(GalleryCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+    }
+    
+    func setDelegates() {
         collectionView?.dragDelegate = self
         collectionView?.dropDelegate = self
         collectionView?.dragInteractionEnabled = true
-        self.collectionView!.register(GalleryCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
+    }
+    
+    func trashButton() {
         let trashButton = UIButton()
         trashButton.setImage(UIImage(named: "icon_trash"), for: .normal)
         trashButton.setTitle("Trash", for: .normal)
@@ -85,8 +87,8 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: GalleryCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryCollectionViewCell", for: indexPath) as! GalleryCollectionViewCell
         let url = gallery?.images[indexPath.row].imagePath!
-        cell.downloadImage(url: url!)
-        return cell        
+        cell.url = url
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView,

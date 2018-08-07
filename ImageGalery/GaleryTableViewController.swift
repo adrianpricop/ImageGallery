@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GaleryTableViewController: UITableViewController, UICollectionViewDelegate, GalleryUpdateDelegate {
+class GaleryTableViewController: UITableViewController, GalleryUpdateDelegate {
     
     var galleryNames = [String]()
     var activeGallerys = [ImageGallery]() {
@@ -22,7 +22,6 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
             }
         }
     }
-    
     var recentlyDeletedGalery = [ImageGallery]()
     var gallerys: [[ImageGallery]] {
         return [activeGallerys, recentlyDeletedGalery]
@@ -37,34 +36,14 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
         self.performSegue(withIdentifier: "GalleryColletionView", sender: self)
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return gallerys.count
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return gallerys[section].count
+    @IBAction func addGallery(_ sender: UIBarButtonItem) {
+        addGallery()
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 1 {
-            return "Recently Deleted"
-        } else {
-            return nil
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "GaleryCell", for: indexPath) as! GalleryTableViewCell
-
-        cell.textLabel?.text = gallerys[indexPath.section][indexPath.row].title
-
-        return cell
-    }
- 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             if indexPath.section == 0 {
@@ -92,16 +71,14 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
         }
     }
 
-    @IBAction func addGallery(_ sender: UIBarButtonItem) {
-        addGallery()
-    }
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             self.performSegue(withIdentifier: "GalleryColletionView", sender: self)
         }
     }
 
+    // MARK: - Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "GalleryColletionView"{
             let indexpath = tableView.indexPathForSelectedRow
@@ -128,5 +105,30 @@ class GaleryTableViewController: UITableViewController, UICollectionViewDelegate
         activeGallerys += [newGallery]
         tableView.reloadData()
     }
+}
 
+extension GaleryTableViewController {
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return gallerys.count
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return gallerys[section].count
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 1 {
+            return "Recently Deleted"
+        } else {
+            return nil
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "GaleryCell", for: indexPath) as! GalleryTableViewCell
+        
+        cell.textLabel?.text = gallerys[indexPath.section][indexPath.row].title
+        
+        return cell
+    }
 }

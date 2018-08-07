@@ -10,6 +10,13 @@ import UIKit
 
 class GalleryCollectionViewCell: UICollectionViewCell {
     
+    var url: URL? {
+        didSet {
+            downloadImage(url: url!)
+            showActivityIndicatory(uiView: self)
+        }
+    }
+    
     var backgroundImage: UIImage? {
         didSet {
             actInd.stopAnimating()
@@ -18,16 +25,19 @@ class GalleryCollectionViewCell: UICollectionViewCell {
     }
     var imageFrame: CGRect!
     
-    @IBOutlet weak var loading: UIActivityIndicatorView!
-    
     override func draw(_ rect: CGRect) {
         backgroundImage?.draw(in: bounds)
     }
     
     var imageFetcher: ImageFetcher!
     
-    func downloadImage(url: URL) {
+    override func awakeFromNib() {
+        super.awakeFromNib()
         showActivityIndicatory(uiView: self)
+    }
+    
+    func downloadImage(url: URL) {
+        
         imageFetcher = ImageFetcher() { (url, image) in
             DispatchQueue.main.async {
                 if image.size.width > self.frame.width {
@@ -48,12 +58,13 @@ class GalleryCollectionViewCell: UICollectionViewCell {
     var actInd: UIActivityIndicatorView = UIActivityIndicatorView()
     
     func showActivityIndicatory(uiView: UIView) {
-        actInd.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        actInd.frame.size = CGSize(width: 40, height: 40)
+        actInd.center = self.center
         actInd.center = uiView.center
         actInd.hidesWhenStopped = true
         actInd.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.whiteLarge
         actInd.color = UIColor.blue
-        uiView.addSubview(actInd)
+        self.addSubview(actInd)
         actInd.startAnimating()
     }
     
